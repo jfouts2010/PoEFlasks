@@ -1,0 +1,14 @@
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\External Overlay.exe.config
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\obj\Debug\External_Overlay.Form1.resources
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\obj\Debug\External_Overlay.Properties.Resources.resources
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\obj\Debug\External Overlay.csproj.GenerateResource.Cache
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\External Overlay.exe
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\External Overlay.pdb
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\SharpDX.Direct2D1.dll
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\SharpDX.dll
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\SharpDX.DXGI.dll
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\SharpDX.xml
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\SharpDX.Direct2D1.xml
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\SharpDX.DXGI.xml
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\obj\Debug\External Overlay.exe
+C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\obj\Debug\External Overlay.pdb
