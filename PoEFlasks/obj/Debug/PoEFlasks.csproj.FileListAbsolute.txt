@@ -1,0 +1,8 @@
+c:\users\john\documents\visual studio 2015\Projects\PoEFlasks\PoEFlasks\bin\Debug\PoEFlasks.exe.config
+c:\users\john\documents\visual studio 2015\Projects\PoEFlasks\PoEFlasks\bin\Debug\PoEFlasks.exe
+c:\users\john\documents\visual studio 2015\Projects\PoEFlasks\PoEFlasks\bin\Debug\PoEFlasks.pdb
+c:\users\john\documents\visual studio 2015\Projects\PoEFlasks\PoEFlasks\obj\Debug\PoEFlasks.Properties.Resources.resources
+c:\users\john\documents\visual studio 2015\Projects\PoEFlasks\PoEFlasks\obj\Debug\PoEFlasks.csproj.GenerateResource.Cache
+c:\users\john\documents\visual studio 2015\Projects\PoEFlasks\PoEFlasks\obj\Debug\PoEFlasks.exe
+c:\users\john\documents\visual studio 2015\Projects\PoEFlasks\PoEFlasks\obj\Debug\PoEFlasks.pdb
+c:\users\john\documents\visual studio 2015\Projects\PoEFlasks\PoEFlasks\obj\Debug\PoEFlasks.Form1.resources
