@@ -17,7 +17,6 @@ using FontFactory = SharpDX.DirectWrite.Factory;
 using Format = SharpDX.DXGI.Format;
 using SharpDX.DirectWrite;
 using System.Threading;
-using PoEFlasks;
 
 namespace External_Overlay
 {
@@ -25,6 +24,7 @@ namespace External_Overlay
     {
         int xResolution = 1920;
         int yResolution = 1080;
+        bool running = false;
         List<Flask> Flasks = new List<Flask>();
         List<double[]> locMods = new List<double[]>();
 
@@ -64,8 +64,9 @@ namespace External_Overlay
         public const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
         public static IntPtr HWND_TOPMOST = new IntPtr(-1);
 
-        public Form1()
+        public Form1(List<Flask> importedFlasks, int globalPercentage)
         {
+            Flasks = importedFlasks;
             Application.AddMessageFilter(this);
             this.handle = Handle;
             int initialStyle = GetWindowLong(this.Handle, -20);
@@ -74,22 +75,22 @@ namespace External_Overlay
             OnResize(null);
 
             InitializeComponent();
-           
+
             locMods.Add(new double[2] { 0.1734375, 0.97407407 });
             locMods.Add(new double[2] { 0.197395833, 0.97407407 });
             locMods.Add(new double[2] { 0.2213541666, 0.97407407 });
             locMods.Add(new double[2] { 0.2453125, 0.97407407 });
             locMods.Add(new double[2] { 0.269270833, 0.97407407 });
-            Flask f1 = new Flask("ToH", Keys.D1);
-            Flasks.Add(f1);
-            Flask f2 = new Flask("ToH", Keys.D2);
-            Flasks.Add(f2);
-            Flask f3 = new Flask("ToH", Keys.D3);
-            Flasks.Add(f3);
-            Flask f4 = new Flask("ToH", Keys.D4);
-            Flasks.Add(f4);
-            Flask f5 = new Flask("ToH", Keys.D5);
-            Flasks.Add(f5);
+            /* Flask f1 = new Flask("ToH", Keys.D1);
+             Flasks.Add(f1);
+             Flask f2 = new Flask("ToH", Keys.D2);
+             Flasks.Add(f2);
+             Flask f3 = new Flask("ToH", Keys.D3);
+             Flasks.Add(f3);
+             Flask f4 = new Flask("ToH", Keys.D4);
+             Flasks.Add(f4);
+             Flask f5 = new Flask("ToH", Keys.D5);
+             Flasks.Add(f5);*/
         }
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -101,25 +102,43 @@ namespace External_Overlay
         public bool PreFilterMessage(ref Message m)
         {
             //here you can specify  which key you need to filter
-            for (int i = 0; i <= 5; i++)
+            for (int i = 0; i <= 4; i++)
             {
-                if (Flasks[0].visible == true)
+                if (Flasks[i].visible == true && Flasks[i].usable == true)
                 {
-                    if (m.Msg == 0x0100 && (Keys)m.WParam.ToInt32() == Flasks[0].key)
+                    if (m.Msg == 0x0100 && (Keys)m.WParam.ToInt32() == Flasks[i].key)
                     {
                         //do flask stuff
-                        
-                        this.label2.Text = "flask used";
+
+                        BackgroundWorker flaskDrawer = new BackgroundWorker();
+                        flaskDrawer.DoWork += new DoWorkEventHandler(worker_DrawFlask);
+                        flaskDrawer.RunWorkerAsync(Flasks[i]);
+                        flaskDrawer.Dispose();
                         return true;
                     }
                     else
                     {
                         return false;
-                        this.label2.Text = "flask not used";
                     }
                 }
             }
             return false;
+        }
+        void worker_DrawFlask(object sender, DoWorkEventArgs e)
+        {
+            Flask flask = (Flask)e.Argument;
+            for (double i2 = flask.baseDuration; i2 > 0; i2 = i2 - 0.1)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.label2.Text = Math.Round(  i2,1).ToString();
+                });
+                System.Threading.Thread.Sleep(100);
+            }
+            this.Invoke((MethodInvoker)delegate
+            {
+                this.label2.Text = "0";
+            });
         }
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -136,8 +155,8 @@ namespace External_Overlay
                 {
                     if (Flasks[i].visible)
                     {
-                       
-                        if (Flasks[i].name == "ToH")
+
+
                         {
                             //check to make sure its at least 1/2 full
                             Point p = new Point((int)(Math.Round(locMods[i][0] * xResolution)), (int)(Math.Round(locMods[i][1] * yResolution)));
@@ -153,7 +172,7 @@ namespace External_Overlay
                 }
                 this.Invoke((MethodInvoker)delegate
                 {
-                    this.label1.Text = message; 
+                    this.label1.Text = message;
                 });
             }
         }
@@ -269,7 +288,7 @@ namespace External_Overlay
                 transparent.G = 255;
                 transparent.B = 255;
                 device.Clear(transparent);
-               // device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Aliased;// you can set another text mode
+                // device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Aliased;// you can set another text mode
                 Ellipse el = new Ellipse();
                 SharpDX.Mathematics.Interop.RawRectangleF rec = new SharpDX.Mathematics.Interop.RawRectangleF();
                 rec.Bottom = 500;
@@ -287,7 +306,7 @@ namespace External_Overlay
                 r4color2.G = 0;
                 r4color2.B = 0;
                 solidColorBrush.Color = r4color2;
-                device.DrawBitmap(LoadFromFile(device, "C:\\Users\\John\\Pictures\\cal.png"), rec2,1.0f, BitmapInterpolationMode.Linear,rec);
+                // device.DrawBitmap(LoadFromFile(device, "C:\\Users\\John\\Pictures\\cal.png"), rec2,1.0f, BitmapInterpolationMode.Linear,rec);
                 device.EndDraw();
             }
 
