@@ -108,11 +108,7 @@ namespace External_Overlay
                     if (m.Msg == 0x0100 && (Keys)m.WParam.ToInt32() == Flasks[0].key)
                     {
                         //do flask stuff
-                        sDX = new Thread(new ParameterizedThreadStart(sDXThread));
-
-                        sDX.Priority = ThreadPriority.Highest;
-                        sDX.IsBackground = true;
-                        sDX.Start();
+                        
                         this.label2.Text = "flask used";
                         return true;
                     }
@@ -250,7 +246,11 @@ namespace External_Overlay
             fontSmall = new TextFormat(fontFactory, fontFamily, fontSizeSmall);
             //line = new device.DrawLine;
 
-          
+            sDX = new Thread(new ParameterizedThreadStart(sDXThread));
+
+            sDX.Priority = ThreadPriority.Highest;
+            sDX.IsBackground = true;
+            sDX.Start();
         }
         protected override void OnPaint(PaintEventArgs e)// create the whole form
         {
