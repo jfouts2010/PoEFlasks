@@ -75,9 +75,21 @@ namespace External_Overlay
 
             InitializeComponent();
            
-            locMods.Add(new double[2] { 0.22552083333, 0.95370370 });
+            locMods.Add(new double[2] { 0.1734375, 0.97407407 });
+            locMods.Add(new double[2] { 0.197395833, 0.97407407 });
+            locMods.Add(new double[2] { 0.2213541666, 0.97407407 });
+            locMods.Add(new double[2] { 0.2453125, 0.97407407 });
+            locMods.Add(new double[2] { 0.269270833, 0.97407407 });
             Flask f1 = new Flask("ToH", Keys.D1);
             Flasks.Add(f1);
+            Flask f2 = new Flask("ToH", Keys.D2);
+            Flasks.Add(f2);
+            Flask f3 = new Flask("ToH", Keys.D3);
+            Flasks.Add(f3);
+            Flask f4 = new Flask("ToH", Keys.D4);
+            Flasks.Add(f4);
+            Flask f5 = new Flask("ToH", Keys.D5);
+            Flasks.Add(f5);
         }
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -96,6 +108,11 @@ namespace External_Overlay
                     if (m.Msg == 0x0100 && (Keys)m.WParam.ToInt32() == Flasks[0].key)
                     {
                         //do flask stuff
+                        sDX = new Thread(new ParameterizedThreadStart(sDXThread));
+
+                        sDX.Priority = ThreadPriority.Highest;
+                        sDX.IsBackground = true;
+                        sDX.Start();
                         this.label2.Text = "flask used";
                         return true;
                     }
@@ -118,27 +135,30 @@ namespace External_Overlay
                         this.label2.Text = Cursor.Position.ToString();
                         this.label1.Text = GetColorFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y)).ToString();
                     });*/
+                string message = "";
                 for (int i = 0; i <= 0; i++)
                 {
                     if (Flasks[i].visible)
                     {
+                       
                         if (Flasks[i].name == "ToH")
                         {
                             //check to make sure its at least 1/2 full
-                            Point p = new Point((int)(locMods[i][0] * xResolution), (int)(locMods[i][1] * yResolution));
-                            if (GetColorFromScreen(p).R > 50 && GetColorFromScreen(p).G > 50 && GetColorFromScreen(p).B > 50)
+                            Point p = new Point((int)(Math.Round(locMods[i][0] * xResolution)), (int)(Math.Round(locMods[i][1] * yResolution)));
+                            if (GetColorFromScreen(p).R > 50 || GetColorFromScreen(p).G > 50 || GetColorFromScreen(p).B > 50)
                             {
                                 Flasks[i].usable = true;
                             }
                             else
                                 Flasks[i].usable = false;
                         }
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            this.label1.Text = Flasks[i].visible.ToString();
-                        });
                     }
+                    message += " Flask " + (i + 1) + ":" + Flasks[i].usable.ToString();
                 }
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.label1.Text = message; 
+                });
             }
         }
         static Color GetColorFromScreen(Point p)
@@ -195,6 +215,7 @@ namespace External_Overlay
             this.DoubleBuffered = true;
             this.Width = 1920;// set your own size
             this.Height = 1080;
+            WindowState = FormWindowState.Maximized;
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer |// this reduce the flicker
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.DoubleBuffer |
@@ -229,11 +250,7 @@ namespace External_Overlay
             fontSmall = new TextFormat(fontFactory, fontFamily, fontSizeSmall);
             //line = new device.DrawLine;
 
-            sDX = new Thread(new ParameterizedThreadStart(sDXThread));
-
-            sDX.Priority = ThreadPriority.Highest;
-            sDX.IsBackground = true;
-            sDX.Start();
+          
         }
         protected override void OnPaint(PaintEventArgs e)// create the whole form
         {
@@ -246,31 +263,74 @@ namespace External_Overlay
             while (true)
             {
                 device.BeginDraw();
-                SharpDX.Mathematics.Interop.RawColor4 r4color = new SharpDX.Mathematics.Interop.RawColor4();
-                r4color.A = 0;
-                r4color.R = 255;
-                r4color.G = 255;
-                r4color.B = 255;
-                device.Clear(r4color);
-                device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Aliased;// you can set another text mode
+                SharpDX.Mathematics.Interop.RawColor4 transparent = new SharpDX.Mathematics.Interop.RawColor4();
+                transparent.A = 0;
+                transparent.R = 255;
+                transparent.G = 255;
+                transparent.B = 255;
+                device.Clear(transparent);
+               // device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Aliased;// you can set another text mode
                 Ellipse el = new Ellipse();
                 SharpDX.Mathematics.Interop.RawRectangleF rec = new SharpDX.Mathematics.Interop.RawRectangleF();
-                rec.Bottom = 0;
-                rec.Top = 1080;
-                rec.Right = 1920;
+                rec.Bottom = 500;
+                rec.Top = 0;
+                rec.Right = 1900;
                 rec.Left = 0;
+                SharpDX.Mathematics.Interop.RawRectangleF rec2 = new SharpDX.Mathematics.Interop.RawRectangleF();
+                rec2.Bottom = 500;
+                rec2.Top = 0;
+                rec2.Right = 1900;
+                rec2.Left = 0;
                 SharpDX.Mathematics.Interop.RawColor4 r4color2 = new SharpDX.Mathematics.Interop.RawColor4();
+                r4color2.A = 255;
                 r4color2.R = 125;
-                r4color2.G = 125;
-                r4color2.B = 125;
+                r4color2.G = 0;
+                r4color2.B = 0;
                 solidColorBrush.Color = r4color2;
-                device.DrawText("asdf", font, rec, solidColorBrush);
-                //place your rendering things here
-                device.DrawText("ASDF", font, rec, solidColorBrush);
+                device.DrawBitmap(LoadFromFile(device, "C:\\Users\\John\\Pictures\\cal.png"), rec2,1.0f, BitmapInterpolationMode.Linear,rec);
                 device.EndDraw();
             }
 
             //whatever you want
+        }
+        public static SharpDX.Direct2D1.Bitmap LoadFromFile(RenderTarget renderTarget, string file)
+        {
+            // Loads from file using System.Drawing.Image
+            using (var bitmap = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(file))
+            {
+                var sourceArea = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                var bitmapProperties = new BitmapProperties(new SharpDX.Direct2D1.PixelFormat(Format.R8G8B8A8_UNorm, AlphaMode.Premultiplied));
+                var size = new Size2(bitmap.Width, bitmap.Height);
+
+                // Transform pixels from BGRA to RGBA
+                int stride = bitmap.Width * sizeof(int);
+                using (var tempStream = new DataStream(bitmap.Height * stride, true, true))
+                {
+                    // Lock System.Drawing.Bitmap
+                    var bitmapData = bitmap.LockBits(sourceArea, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+
+                    // Convert all pixels 
+                    for (int y = 0; y < bitmap.Height; y++)
+                    {
+                        int offset = bitmapData.Stride * y;
+                        for (int x = 0; x < bitmap.Width; x++)
+                        {
+                            // Not optimized 
+                            byte B = Marshal.ReadByte(bitmapData.Scan0, offset++);
+                            byte G = Marshal.ReadByte(bitmapData.Scan0, offset++);
+                            byte R = Marshal.ReadByte(bitmapData.Scan0, offset++);
+                            byte A = Marshal.ReadByte(bitmapData.Scan0, offset++);
+                            int rgba = R | (G << 8) | (B << 16) | (A << 24);
+                            tempStream.Write(rgba);
+                        }
+
+                    }
+                    bitmap.UnlockBits(bitmapData);
+                    tempStream.Position = 0;
+
+                    return new SharpDX.Direct2D1.Bitmap(renderTarget, size, tempStream, stride, bitmapProperties);
+                }
+            }
         }
     }
 }

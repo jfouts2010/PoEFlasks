@@ -12,3 +12,18 @@ C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\SharpDX.Dir
 C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\bin\Debug\SharpDX.DXGI.xml
 C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\obj\Debug\External Overlay.exe
 C:\Users\jfouts\Documents\Visual Studio 2015\Projects\Test\obj\Debug\External Overlay.pdb
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\External Overlay.exe.config
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.exe
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.pdb
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\External Overlay.exe
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\External Overlay.pdb
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.Direct2D1.dll
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.dll
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.DXGI.dll
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.xml
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.Direct2D1.xml
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.DXGI.xml
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.csprojResolveAssemblyReference.cache
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External_Overlay.Form1.resources
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External_Overlay.Properties.Resources.resources
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.csproj.GenerateResource.Cache
