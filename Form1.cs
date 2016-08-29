@@ -127,6 +127,7 @@ namespace External_Overlay
         void worker_DrawFlask(object sender, DoWorkEventArgs e)
         {
             Flask flask = (Flask)e.Argument;
+            double x = Flasks[0].baseDuration;
             for (double i2 = flask.baseDuration; i2 > 0; i2 = i2 - 0.1)
             {
                 this.Invoke((MethodInvoker)delegate
@@ -174,6 +175,7 @@ namespace External_Overlay
                 {
                     this.label1.Text = message;
                 });
+
             }
         }
         static Color GetColorFromScreen(Point p)
