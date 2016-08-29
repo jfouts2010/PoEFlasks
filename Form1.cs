@@ -81,16 +81,6 @@ namespace External_Overlay
             locMods.Add(new double[2] { 0.2213541666, 0.97407407 });
             locMods.Add(new double[2] { 0.2453125, 0.97407407 });
             locMods.Add(new double[2] { 0.269270833, 0.97407407 });
-            /* Flask f1 = new Flask("ToH", Keys.D1);
-             Flasks.Add(f1);
-             Flask f2 = new Flask("ToH", Keys.D2);
-             Flasks.Add(f2);
-             Flask f3 = new Flask("ToH", Keys.D3);
-             Flasks.Add(f3);
-             Flask f4 = new Flask("ToH", Keys.D4);
-             Flasks.Add(f4);
-             Flask f5 = new Flask("ToH", Keys.D5);
-             Flasks.Add(f5);*/
         }
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -102,18 +92,15 @@ namespace External_Overlay
         public bool PreFilterMessage(ref Message m)
         {
             //here you can specify  which key you need to filter
-            for (int i = 0; i <= 4; i++)
+            for (int i = 0; i <= 0; i++)
             {
                 if (Flasks[i].visible == true && Flasks[i].usable == true)
                 {
                     if (m.Msg == 0x0100 && (Keys)m.WParam.ToInt32() == Flasks[i].key)
                     {
                         //do flask stuff
-
-                        BackgroundWorker flaskDrawer = new BackgroundWorker();
-                        flaskDrawer.DoWork += new DoWorkEventHandler(worker_DrawFlask);
-                        flaskDrawer.RunWorkerAsync(Flasks[i]);
-                        flaskDrawer.Dispose();
+                        Flasks[i].inUse = true;
+                        Flasks[i].useDuration = Flasks[i].baseDuration;
                         return true;
                     }
                     else
@@ -124,7 +111,7 @@ namespace External_Overlay
             }
             return false;
         }
-        void worker_DrawFlask(object sender, DoWorkEventArgs e)
+      /*  void worker_DrawFlask(object sender, DoWorkEventArgs e)
         {
             Flask flask = (Flask)e.Argument;
             double x = Flasks[0].baseDuration;
@@ -132,7 +119,7 @@ namespace External_Overlay
             {
                 this.Invoke((MethodInvoker)delegate
                 {
-                    this.label2.Text = Math.Round(  i2,1).ToString();
+                    this.label2.Text = Math.Round(i2, 1).ToString();
                 });
                 System.Threading.Thread.Sleep(100);
             }
@@ -140,43 +127,55 @@ namespace External_Overlay
             {
                 this.label2.Text = "0";
             });
-        }
+        }*/
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
+            bool createdNew;
+            EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "CF2D4313-33DE-489D-9721-6AFF69841DEA", out createdNew);
+            bool signaled = false;
+            do
             {
-                //code to check color at a position
-                /* this.Invoke((MethodInvoker)delegate {
-                        this.Cursor = new Cursor(Cursor.Current.Handle);
-                        this.label2.Text = Cursor.Position.ToString();
-                        this.label1.Text = GetColorFromScreen(new Point(Cursor.Position.X, Cursor.Position.Y)).ToString();
-                    });*/
+                signaled = waitHandle.WaitOne(TimeSpan.FromSeconds(0.1));
                 string message = "";
                 for (int i = 0; i <= 0; i++)
                 {
                     if (Flasks[i].visible)
                     {
-
-
+                        //check to make sure its at least 1/2 full
+                        Point p = new Point((int)(Math.Round(locMods[i][0] * xResolution)), (int)(Math.Round(locMods[i][1] * yResolution)));
+                        if (GetColorFromScreen(p).R > 50 || GetColorFromScreen(p).G > 50 || GetColorFromScreen(p).B > 50)
                         {
-                            //check to make sure its at least 1/2 full
-                            Point p = new Point((int)(Math.Round(locMods[i][0] * xResolution)), (int)(Math.Round(locMods[i][1] * yResolution)));
-                            if (GetColorFromScreen(p).R > 50 || GetColorFromScreen(p).G > 50 || GetColorFromScreen(p).B > 50)
-                            {
-                                Flasks[i].usable = true;
-                            }
-                            else
-                                Flasks[i].usable = false;
+                            Flasks[i].usable = true;
                         }
+                        else
+                            Flasks[i].usable = false;
                     }
-                    message += " Flask " + (i + 1) + ":" + Flasks[i].usable.ToString();
+                    if(Flasks[i].inUse)
+                    {
+                        if (Flasks[i].useDuration > 0)
+                        {
+                            Flasks[i].useDuration = Math.Round( Flasks[i].useDuration -= 0.1,1);
+                            //draw
+                        }
+                        else
+                            Flasks[i].inUse = false;
+                    }
+                    message += " Flask " + (i + 1) + ":" + Flasks[i].usable.ToString() + " " + Flasks[i].useDuration.ToString();
                 }
                 this.Invoke((MethodInvoker)delegate
                 {
                     this.label1.Text = message;
                 });
-
             }
+            while (!signaled);
+        }
+        private static void OnTimerElapsed(object state)
+        {
+            Log("Timer elapsed.");
+        }
+        private static void Log(string message)
+        {
+            Console.WriteLine(DateTime.Now + ": " + message);
         }
         static Color GetColorFromScreen(Point p)
         {

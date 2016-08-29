@@ -13,6 +13,8 @@ public class Flask
     public double baseDuration { get; set; }
     public int qual { get; set; }
     public Keys key { get; set; }
+    public bool inUse { get; set; }
+    public double useDuration { get; set; }
     public Flask(bool vis, Name _name, Keys _key, int _qual)
     {
         visible = vis;
