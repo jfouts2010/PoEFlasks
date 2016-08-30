@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -61,6 +62,7 @@ namespace External_Overlay
             this.numericUpDown4.Value = (int)Properties.Settings.Default["qual4"];
             this.numericUpDown5.Value = (int)Properties.Settings.Default["qual5"];
             this.numericUpDown6.Value = (int)Properties.Settings.Default["globalqual"];
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
         }
 
         private void button1_Click(object sender, EventArgs e)
