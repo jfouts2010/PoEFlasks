@@ -19,6 +19,7 @@ using SharpDX.DirectWrite;
 using System.Threading;
 using MouseKeyboardActivityMonitor;
 using MouseKeyboardActivityMonitor.WinApi;
+using System.Diagnostics;
 
 namespace External_Overlay
 {
@@ -69,6 +70,7 @@ namespace External_Overlay
 
         public Form1(List<Flask> importedFlasks, int globalPercentage)
         {
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
             Flasks = importedFlasks;
             Application.AddMessageFilter(this);
             this.handle = Handle;
