@@ -269,8 +269,8 @@ namespace External_Overlay
         private void Form1_Load(object sender, EventArgs e)
         {
             this.DoubleBuffered = true;
-            this.Width = 1920;// set your own size
-            this.Height = 1080;
+            this.Width = (int)xResolution;// set your own size
+            this.Height = (int)yResolution;
             WindowState = FormWindowState.Maximized;
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer |// this reduce the flicker
                 ControlStyles.AllPaintingInWmPaint |
@@ -287,7 +287,7 @@ namespace External_Overlay
             renderProperties = new HwndRenderTargetProperties()
             {
                 Hwnd = this.Handle,
-                PixelSize = new Size2(1920, 1080),
+                PixelSize = new Size2((int)xResolution, (int)yResolution),
                 PresentOptions = PresentOptions.None
             };
 
@@ -321,9 +321,9 @@ namespace External_Overlay
         private void sDXThread(object sender)
         {
             SharpDX.Mathematics.Interop.RawRectangleF rec = new SharpDX.Mathematics.Interop.RawRectangleF();
-            rec.Bottom = 1080;
+            rec.Bottom = yResolution;
             rec.Top = 0;
-            rec.Right = 1900;
+            rec.Right = xResolution;
             rec.Left = 0;
             SharpDX.Mathematics.Interop.RawRectangleF rec1 = new SharpDX.Mathematics.Interop.RawRectangleF();
             rec1.Bottom = 187f/1080f*yResolution;
