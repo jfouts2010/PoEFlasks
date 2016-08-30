@@ -274,5 +274,53 @@ namespace External_Overlay.Properties {
                 this["globalqual"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public decimal Alpha {
+            get {
+                return ((decimal)(this["Alpha"]));
+            }
+            set {
+                this["Alpha"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Xmovement {
+            get {
+                return ((int)(this["Xmovement"]));
+            }
+            set {
+                this["Xmovement"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1920")]
+        public float XResolution {
+            get {
+                return ((float)(this["XResolution"]));
+            }
+            set {
+                this["XResolution"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1080")]
+        public float YResolution {
+            get {
+                return ((float)(this["YResolution"]));
+            }
+            set {
+                this["YResolution"] = value;
+            }
+        }
     }
 }

@@ -25,10 +25,12 @@ namespace External_Overlay
 {
     public partial class Form1 : Form, IMessageFilter
     {
-        int xResolution = 1920;
-        int yResolution = 1080;
+        float xResolution = 1920;
+        float yResolution = 1080;
         bool WCCD = true;
-        bool running = false;
+        double globalPercentage = 0;
+        float flaskAlpha = 1.0f;
+        float xAdjustment = 0;
         List<Flask> Flasks = new List<Flask>();
         List<double[]> locMods = new List<double[]>();
         private MouseKeyboardActivityMonitor.KeyboardHookListener keyboardListener;
@@ -68,8 +70,13 @@ namespace External_Overlay
         public const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
         public static IntPtr HWND_TOPMOST = new IntPtr(-1);
 
-        public Form1(List<Flask> importedFlasks, int globalPercentage)
+        public Form1(List<Flask> importedFlasks, int _globalPercentage, float _flaskAlpha, int _xAdjustment, float _xResolution, float _yResolution)
         {
+            xResolution = _xResolution;
+            yResolution = _yResolution;
+            xAdjustment = _xAdjustment;
+            flaskAlpha = _flaskAlpha;
+            globalPercentage = _globalPercentage;
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
             Flasks = importedFlasks;
             Application.AddMessageFilter(this);
@@ -101,7 +108,7 @@ namespace External_Overlay
                     {
                         //do flask stuff
                         Flasks[i].inUse = true;
-                        Flasks[i].useDuration = (float)Flasks[i].baseDuration;
+                        Flasks[i].useDuration = (float)Flasks[i].baseDuration * (1+ (float)Flasks[i].qual/100 + (float)globalPercentage/100);
                     }
                 }
             }
@@ -317,30 +324,30 @@ namespace External_Overlay
             rec.Right = 1900;
             rec.Left = 0;
             SharpDX.Mathematics.Interop.RawRectangleF rec1 = new SharpDX.Mathematics.Interop.RawRectangleF();
-            rec1.Bottom = 187;
-            rec1.Top = 31;
-            rec1.Right = 1636 - 78 * 4;
-            rec1.Left = 1559 - 78 * 4;
+            rec1.Bottom = 187f/1080f*yResolution;
+            rec1.Top = 31f/1080f*yResolution;
+            rec1.Right = (1636f - 78f * 4f + xAdjustment)/1920f*xResolution;
+            rec1.Left = (1559f - 78f * 4f + xAdjustment)/1920f*xResolution;
             SharpDX.Mathematics.Interop.RawRectangleF rec2 = new SharpDX.Mathematics.Interop.RawRectangleF();
-            rec2.Bottom = 187;
-            rec2.Top = 31;
-            rec2.Right = 1636 - 78 * 3;
-            rec2.Left = 1559 - 78 * 3;
+            rec2.Bottom = 187f / 1080f * yResolution;
+            rec2.Top = 31f / 1080f * yResolution;
+            rec2.Right = (1636f - 78f * 3f + xAdjustment) / 1920f * xResolution;
+            rec2.Left = (1559f - 78f * 3f + xAdjustment) / 1920f * xResolution;
             SharpDX.Mathematics.Interop.RawRectangleF rec3 = new SharpDX.Mathematics.Interop.RawRectangleF();
-            rec3.Bottom = 187;
-            rec3.Top = 31;
-            rec3.Right = 1636 - 78 * 2;
-            rec3.Left = 1559-78*2;
+            rec3.Bottom = 187f / 1080f * yResolution;
+            rec3.Top = 31f / 1080f * yResolution;
+            rec3.Right = (1636f - 78f * 2f + xAdjustment) / 1920f * xResolution;
+            rec3.Left = (1559f - 78f * 2f + xAdjustment) / 1920f * xResolution;
             SharpDX.Mathematics.Interop.RawRectangleF rec4 = new SharpDX.Mathematics.Interop.RawRectangleF();
-            rec4.Bottom = 187;
-            rec4.Top = 31;
-            rec4.Right = 1636-78;
-            rec4.Left = 1559-78;
+            rec4.Bottom = 187f / 1080f * yResolution;
+            rec4.Top = 31f / 1080f * yResolution;
+            rec4.Right = (1636f - 78f + xAdjustment) / 1920f * xResolution;
+            rec4.Left = (1559f - 78f + xAdjustment) / 1920f * xResolution;
             SharpDX.Mathematics.Interop.RawRectangleF rec5 = new SharpDX.Mathematics.Interop.RawRectangleF();
-            rec5.Bottom = 187;
-            rec5.Top = 31;
-            rec5.Right = 1636;
-            rec5.Left = 1559;
+            rec5.Bottom = 187f / 1080f * yResolution;
+            rec5.Top = 31f / 1080f * yResolution;
+            rec5.Right = (1636f + xAdjustment) / 1920f * xResolution;
+            rec5.Left = (1559f + xAdjustment) / 1920f * xResolution;
             SharpDX.Mathematics.Interop.RawRectangleF recwc = new SharpDX.Mathematics.Interop.RawRectangleF();
             recwc.Bottom = 276;
             recwc.Top = 224;
@@ -372,7 +379,7 @@ namespace External_Overlay
                 {
                     if (Flasks[i].useDuration > 0)
                     {
-                        device.DrawBitmap(LoadFromFile(device, Flasks[i].flaskImageLocation), rectangles[i],1.0f, BitmapInterpolationMode.Linear,rec);
+                        device.DrawBitmap(LoadFromFile(device, Flasks[i].flaskImageLocation), rectangles[i],flaskAlpha/100, BitmapInterpolationMode.Linear,rec);
                     }
                 }
                 if (!WCCD)

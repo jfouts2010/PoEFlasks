@@ -62,6 +62,10 @@ namespace External_Overlay
             this.numericUpDown4.Value = (int)Properties.Settings.Default["qual4"];
             this.numericUpDown5.Value = (int)Properties.Settings.Default["qual5"];
             this.numericUpDown6.Value = (int)Properties.Settings.Default["globalqual"];
+            this.numericUpDown7.Value = (decimal)Properties.Settings.Default["Alpha"];
+            this.numericUpDown8.Value = (int)Properties.Settings.Default["Xmovement"];
+            this.numericUpDown9.Value = (decimal)Properties.Settings.Default["XResolution"];
+            this.numericUpDown10.Value = (decimal)Properties.Settings.Default["YResolution"];
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
         }
 
@@ -91,6 +95,10 @@ namespace External_Overlay
                 Properties.Settings.Default["qual4"] = (int)numericUpDown4.Value;
                 Properties.Settings.Default["qual5"] = (int)numericUpDown5.Value;
                 Properties.Settings.Default["globalqual"] = (int)numericUpDown6.Value;
+                Properties.Settings.Default["Alpha"] = (decimal)numericUpDown7.Value;
+                Properties.Settings.Default["Xmovement"] = (int)numericUpDown8.Value;
+                Properties.Settings.Default["XResolution"] = (float)numericUpDown8.Value;
+                Properties.Settings.Default["YResolution"] = (float)numericUpDown8.Value;
                 Properties.Settings.Default.Save();
                 Flask f1 = new Flask(checkBox1.Checked, (Flask.Name)comboBox6.SelectedValue, (Keys)comboBox1.SelectedItem, (int)numericUpDown1.Value);
                 Flask f2 = new Flask(checkBox1.Checked, (Flask.Name)comboBox7.SelectedValue, (Keys)comboBox2.SelectedItem, (int)numericUpDown2.Value);
@@ -103,7 +111,7 @@ namespace External_Overlay
                 Flasks.Add(f3);
                 Flasks.Add(f4);
                 Flasks.Add(f5);
-                f = new Form1(Flasks, (int)numericUpDown6.Value);
+                f = new Form1(Flasks, (int)numericUpDown6.Value, (float)numericUpDown7.Value, (int)numericUpDown8.Value, (float)numericUpDown9.Value, (float)numericUpDown10.Value);
                 f.Show();
                 running = true;
 
@@ -161,9 +169,14 @@ namespace External_Overlay
             if (f != null)
             {
                 f.Close();
-                f = new Form1(Flasks, (int)numericUpDown6.Value);
+                f = new Form1(Flasks, (int)numericUpDown6.Value, (float)numericUpDown7.Value, (int)numericUpDown8.Value);
                 f.Show();
             }
+        }
+
+        private void numericUpDown8_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

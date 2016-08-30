@@ -65,5 +65,17 @@
     <Setting Name="globalqual" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="Alpha" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="Xmovement" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="XResolution" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">1920</Value>
+    </Setting>
+    <Setting Name="YResolution" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">1080</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
