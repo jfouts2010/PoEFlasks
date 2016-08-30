@@ -17,6 +17,8 @@ using FontFactory = SharpDX.DirectWrite.Factory;
 using Format = SharpDX.DXGI.Format;
 using SharpDX.DirectWrite;
 using System.Threading;
+using MouseKeyboardActivityMonitor;
+using MouseKeyboardActivityMonitor.WinApi;
 
 namespace External_Overlay
 {
@@ -24,10 +26,11 @@ namespace External_Overlay
     {
         int xResolution = 1920;
         int yResolution = 1080;
+        bool WCCD = true;
         bool running = false;
         List<Flask> Flasks = new List<Flask>();
         List<double[]> locMods = new List<double[]>();
-
+        private MouseKeyboardActivityMonitor.KeyboardHookListener keyboardListener;
         private WindowRenderTarget device;
         private HwndRenderTargetProperties renderProperties;
         private SolidColorBrush solidColorBrush;
@@ -73,7 +76,9 @@ namespace External_Overlay
             SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
             SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
             OnResize(null);
-
+            keyboardListener = new KeyboardHookListener(new GlobalHooker());
+            keyboardListener.Enabled = true;
+            keyboardListener.KeyPress += KeyboardListener_KeyDown;
             InitializeComponent();
 
             locMods.Add(new double[2] { 0.1734375, 0.97407407 });
@@ -81,6 +86,23 @@ namespace External_Overlay
             locMods.Add(new double[2] { 0.2213541666, 0.97407407 });
             locMods.Add(new double[2] { 0.2453125, 0.97407407 });
             locMods.Add(new double[2] { 0.269270833, 0.97407407 });
+        }
+        private void KeyboardListener_KeyDown(object sender, KeyPressEventArgs e)
+        {
+            for (int i = 0; i <= Flasks.Count() - 1; i++)
+            {
+                if (Flasks[i].visible == true && Flasks[i].usable == true)
+                {
+                    int s1 = e.KeyChar;
+                    // int s2 = (int)Flasks[i].key;
+                    if (s1 == (int)Flasks[i].key)
+                    {
+                        //do flask stuff
+                        Flasks[i].inUse = true;
+                        Flasks[i].useDuration = (float)Flasks[i].baseDuration;
+                    }
+                }
+            }
         }
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -92,15 +114,12 @@ namespace External_Overlay
         public bool PreFilterMessage(ref Message m)
         {
             //here you can specify  which key you need to filter
-            for (int i = 0; i <= 0; i++)
+            for (int i = 0; i <= Flasks.Count() - 1; i++)
             {
                 if (Flasks[i].visible == true && Flasks[i].usable == true)
                 {
                     if (m.Msg == 0x0100 && (Keys)m.WParam.ToInt32() == Flasks[i].key)
                     {
-                        //do flask stuff
-                        Flasks[i].inUse = true;
-                        Flasks[i].useDuration = Flasks[i].baseDuration;
                         return true;
                     }
                     else
@@ -111,23 +130,23 @@ namespace External_Overlay
             }
             return false;
         }
-      /*  void worker_DrawFlask(object sender, DoWorkEventArgs e)
-        {
-            Flask flask = (Flask)e.Argument;
-            double x = Flasks[0].baseDuration;
-            for (double i2 = flask.baseDuration; i2 > 0; i2 = i2 - 0.1)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    this.label2.Text = Math.Round(i2, 1).ToString();
-                });
-                System.Threading.Thread.Sleep(100);
-            }
-            this.Invoke((MethodInvoker)delegate
-            {
-                this.label2.Text = "0";
-            });
-        }*/
+        /*  void worker_DrawFlask(object sender, DoWorkEventArgs e)
+          {
+              Flask flask = (Flask)e.Argument;
+              double x = Flasks[0].baseDuration;
+              for (double i2 = flask.baseDuration; i2 > 0; i2 = i2 - 0.1)
+              {
+                  this.Invoke((MethodInvoker)delegate
+                  {
+                      this.label2.Text = Math.Round(i2, 1).ToString();
+                  });
+                  System.Threading.Thread.Sleep(100);
+              }
+              this.Invoke((MethodInvoker)delegate
+              {
+                  this.label2.Text = "0";
+              });
+          }*/
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             bool createdNew;
@@ -135,9 +154,17 @@ namespace External_Overlay
             bool signaled = false;
             do
             {
-                signaled = waitHandle.WaitOne(TimeSpan.FromSeconds(0.1));
+                DateTime d1 = DateTime.Now;
+                signaled = waitHandle.WaitOne(TimeSpan.FromSeconds(0.5));
                 string message = "";
-                for (int i = 0; i <= 0; i++)
+                Point pwc = new Point(1437, 1021);
+                if (GetColorFromScreen(pwc).R > 70 || GetColorFromScreen(pwc).G > 70 || GetColorFromScreen(pwc).B > 70)
+                {
+                    WCCD = false;
+                }
+                else
+                    WCCD = true;
+                for (int i = 0; i <= Flasks.Count() - 1; i++)
                 {
                     if (Flasks[i].visible)
                     {
@@ -150,11 +177,13 @@ namespace External_Overlay
                         else
                             Flasks[i].usable = false;
                     }
-                    if(Flasks[i].inUse)
+                    if (Flasks[i].inUse)
                     {
                         if (Flasks[i].useDuration > 0)
                         {
-                            Flasks[i].useDuration = Math.Round( Flasks[i].useDuration -= 0.1,1);
+                            DateTime d2 = DateTime.Now;
+                            TimeSpan ts = d2 - d1;
+                            Flasks[i].useDuration = Flasks[i].useDuration - (float)ts.Milliseconds / 1000;
                             //draw
                         }
                         else
@@ -280,6 +309,52 @@ namespace External_Overlay
 
         private void sDXThread(object sender)
         {
+            SharpDX.Mathematics.Interop.RawRectangleF rec = new SharpDX.Mathematics.Interop.RawRectangleF();
+            rec.Bottom = 1080;
+            rec.Top = 0;
+            rec.Right = 1900;
+            rec.Left = 0;
+            SharpDX.Mathematics.Interop.RawRectangleF rec1 = new SharpDX.Mathematics.Interop.RawRectangleF();
+            rec1.Bottom = 187;
+            rec1.Top = 31;
+            rec1.Right = 1636 - 78 * 4;
+            rec1.Left = 1559 - 78 * 4;
+            SharpDX.Mathematics.Interop.RawRectangleF rec2 = new SharpDX.Mathematics.Interop.RawRectangleF();
+            rec2.Bottom = 187;
+            rec2.Top = 31;
+            rec2.Right = 1636 - 78 * 3;
+            rec2.Left = 1559 - 78 * 3;
+            SharpDX.Mathematics.Interop.RawRectangleF rec3 = new SharpDX.Mathematics.Interop.RawRectangleF();
+            rec3.Bottom = 187;
+            rec3.Top = 31;
+            rec3.Right = 1636 - 78 * 2;
+            rec3.Left = 1559-78*2;
+            SharpDX.Mathematics.Interop.RawRectangleF rec4 = new SharpDX.Mathematics.Interop.RawRectangleF();
+            rec4.Bottom = 187;
+            rec4.Top = 31;
+            rec4.Right = 1636-78;
+            rec4.Left = 1559-78;
+            SharpDX.Mathematics.Interop.RawRectangleF rec5 = new SharpDX.Mathematics.Interop.RawRectangleF();
+            rec5.Bottom = 187;
+            rec5.Top = 31;
+            rec5.Right = 1636;
+            rec5.Left = 1559;
+            SharpDX.Mathematics.Interop.RawRectangleF recwc = new SharpDX.Mathematics.Interop.RawRectangleF();
+            recwc.Bottom = 276;
+            recwc.Top = 224;
+            recwc.Right = 1641;
+            recwc.Left = 1589;
+            List<SharpDX.Mathematics.Interop.RawRectangleF> rectangles = new List<SharpDX.Mathematics.Interop.RawRectangleF>();
+            rectangles.Add(rec1);
+            rectangles.Add(rec2);
+            rectangles.Add(rec3);
+            rectangles.Add(rec4);
+            rectangles.Add(rec5);
+            SharpDX.Mathematics.Interop.RawColor4 r4color2 = new SharpDX.Mathematics.Interop.RawColor4();
+            r4color2.A = 255;
+            r4color2.R = 125;
+            r4color2.G = 0;
+            r4color2.B = 0;
             while (true)
             {
                 device.BeginDraw();
@@ -289,26 +364,21 @@ namespace External_Overlay
                 transparent.G = 255;
                 transparent.B = 255;
                 device.Clear(transparent);
-                // device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Aliased;// you can set another text mode
-                Ellipse el = new Ellipse();
-                SharpDX.Mathematics.Interop.RawRectangleF rec = new SharpDX.Mathematics.Interop.RawRectangleF();
-                rec.Bottom = 500;
-                rec.Top = 0;
-                rec.Right = 1900;
-                rec.Left = 0;
-                SharpDX.Mathematics.Interop.RawRectangleF rec2 = new SharpDX.Mathematics.Interop.RawRectangleF();
-                rec2.Bottom = 500;
-                rec2.Top = 0;
-                rec2.Right = 1900;
-                rec2.Left = 0;
-                SharpDX.Mathematics.Interop.RawColor4 r4color2 = new SharpDX.Mathematics.Interop.RawColor4();
-                r4color2.A = 255;
-                r4color2.R = 125;
-                r4color2.G = 0;
-                r4color2.B = 0;
                 solidColorBrush.Color = r4color2;
-                // device.DrawBitmap(LoadFromFile(device, "C:\\Users\\John\\Pictures\\cal.png"), rec2,1.0f, BitmapInterpolationMode.Linear,rec);
+                for(int i = 0; i <= Flasks.Count()-1; i++)
+                if (Flasks[i].inUse)
+                {
+                    if (Flasks[i].useDuration > 0)
+                    {
+                        device.DrawBitmap(LoadFromFile(device, Flasks[i].flaskImageLocation), rectangles[i],1.0f, BitmapInterpolationMode.Linear,rec);
+                    }
+                }
+                if (!WCCD)
+                {
+                    device.DrawBitmap(LoadFromFile(device, "FlaskImages\\WC.png"), recwc, 1.0f, BitmapInterpolationMode.Linear, rec);
+                }
                 device.EndDraw();
+                Thread.Sleep(200);
             }
 
             //whatever you want
