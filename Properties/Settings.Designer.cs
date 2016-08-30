@@ -322,5 +322,17 @@ namespace External_Overlay.Properties {
                 this["YResolution"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showWC {
+            get {
+                return ((bool)(this["showWC"]));
+            }
+            set {
+                this["showWC"] = value;
+            }
+        }
     }
 }

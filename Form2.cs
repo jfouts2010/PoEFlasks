@@ -56,6 +56,7 @@ namespace External_Overlay
             this.checkBox3.Checked = (bool)Properties.Settings.Default["check3"];
             this.checkBox4.Checked = (bool)Properties.Settings.Default["check4"];
             this.checkBox5.Checked = (bool)Properties.Settings.Default["check5"];
+            this.checkBox6.Checked = (bool)Properties.Settings.Default["showWC"];
             this.numericUpDown1.Value = (int)Properties.Settings.Default["qual1"];
             this.numericUpDown2.Value = (int)Properties.Settings.Default["qual2"];
             this.numericUpDown3.Value = (int)Properties.Settings.Default["qual3"];
@@ -89,6 +90,7 @@ namespace External_Overlay
                 Properties.Settings.Default["check3"] = checkBox3.Checked;
                 Properties.Settings.Default["check4"] = checkBox4.Checked;
                 Properties.Settings.Default["check5"] = checkBox5.Checked;
+                Properties.Settings.Default["showWC"] = checkBox6.Checked;
                 Properties.Settings.Default["qual1"] = (int)numericUpDown1.Value;
                 Properties.Settings.Default["qual2"] = (int)numericUpDown2.Value;
                 Properties.Settings.Default["qual3"] = (int)numericUpDown3.Value;
@@ -111,7 +113,7 @@ namespace External_Overlay
                 Flasks.Add(f3);
                 Flasks.Add(f4);
                 Flasks.Add(f5);
-                f = new Form1(Flasks, (int)numericUpDown6.Value, (float)numericUpDown7.Value, (int)numericUpDown8.Value, (float)numericUpDown9.Value, (float)numericUpDown10.Value);
+                f = new Form1(Flasks, (int)numericUpDown6.Value, (float)numericUpDown7.Value, (int)numericUpDown8.Value, (float)numericUpDown9.Value, (float)numericUpDown10.Value, checkBox6.Checked);
                 f.Show();
                 running = true;
 
@@ -169,7 +171,7 @@ namespace External_Overlay
             if (f != null)
             {
                 f.Close();
-                f = new Form1(Flasks, (int)numericUpDown6.Value, (float)numericUpDown7.Value, (int)numericUpDown8.Value, (float)numericUpDown9.Value, (float)numericUpDown10.Value);
+                f = new Form1(Flasks, (int)numericUpDown6.Value, (float)numericUpDown7.Value, (int)numericUpDown8.Value, (float)numericUpDown9.Value, (float)numericUpDown10.Value, checkBox6.Checked);
                 f.Show();
             }
         }

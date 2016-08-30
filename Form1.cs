@@ -28,6 +28,7 @@ namespace External_Overlay
         float xResolution = 1920;
         float yResolution = 1080;
         bool WCCD = true;
+        bool showWC = false;
         double globalPercentage = 0;
         float flaskAlpha = 1.0f;
         float xAdjustment = 0;
@@ -70,8 +71,9 @@ namespace External_Overlay
         public const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
         public static IntPtr HWND_TOPMOST = new IntPtr(-1);
 
-        public Form1(List<Flask> importedFlasks, int _globalPercentage, float _flaskAlpha, int _xAdjustment, float _xResolution, float _yResolution)
+        public Form1(List<Flask> importedFlasks, int _globalPercentage, float _flaskAlpha, int _xAdjustment, float _xResolution, float _yResolution, bool _showWC)
         {
+            showWC = _showWC;
             xResolution = _xResolution;
             yResolution = _yResolution;
             xAdjustment = _xAdjustment;
@@ -382,7 +384,7 @@ namespace External_Overlay
                         device.DrawBitmap(LoadFromFile(device, Flasks[i].flaskImageLocation), rectangles[i],flaskAlpha/100, BitmapInterpolationMode.Linear,rec);
                     }
                 }
-                if (!WCCD)
+                if (!WCCD && showWC)
                 {
                     device.DrawBitmap(LoadFromFile(device, "FlaskImages\\WC.png"), recwc, 1.0f, BitmapInterpolationMode.Linear, rec);
                 }
