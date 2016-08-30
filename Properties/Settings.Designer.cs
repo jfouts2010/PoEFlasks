@@ -302,9 +302,9 @@ namespace External_Overlay.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1920")]
-        public float XResolution {
+        public int XResolution {
             get {
-                return ((float)(this["XResolution"]));
+                return ((int)(this["XResolution"]));
             }
             set {
                 this["XResolution"] = value;
@@ -314,9 +314,9 @@ namespace External_Overlay.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1080")]
-        public float YResolution {
+        public int YResolution {
             get {
-                return ((float)(this["YResolution"]));
+                return ((int)(this["YResolution"]));
             }
             set {
                 this["YResolution"] = value;

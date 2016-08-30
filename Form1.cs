@@ -349,10 +349,10 @@ namespace External_Overlay
             rec5.Right = (1636f + xAdjustment) / 1920f * xResolution;
             rec5.Left = (1559f + xAdjustment) / 1920f * xResolution;
             SharpDX.Mathematics.Interop.RawRectangleF recwc = new SharpDX.Mathematics.Interop.RawRectangleF();
-            recwc.Bottom = 276;
-            recwc.Top = 224;
-            recwc.Right = 1641;
-            recwc.Left = 1589;
+            recwc.Bottom = (276f/1080)*yResolution;
+            recwc.Top = (224f/1080)*yResolution;
+            recwc.Right = (1641f/1920f)*xResolution;
+            recwc.Left = (1589f/1920f)*xResolution;
             List<SharpDX.Mathematics.Interop.RawRectangleF> rectangles = new List<SharpDX.Mathematics.Interop.RawRectangleF>();
             rectangles.Add(rec1);
             rectangles.Add(rec2);

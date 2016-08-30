@@ -71,10 +71,10 @@
     <Setting Name="Xmovement" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="XResolution" Type="System.Single" Scope="User">
+    <Setting Name="XResolution" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1920</Value>
     </Setting>
-    <Setting Name="YResolution" Type="System.Single" Scope="User">
+    <Setting Name="YResolution" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1080</Value>
     </Setting>
   </Settings>

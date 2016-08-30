@@ -425,6 +425,16 @@
             // numericUpDown9
             // 
             this.numericUpDown9.Location = new System.Drawing.Point(508, 162);
+            this.numericUpDown9.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown9.Minimum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            -2147483648});
             this.numericUpDown9.Name = "numericUpDown9";
             this.numericUpDown9.Size = new System.Drawing.Size(58, 20);
             this.numericUpDown9.TabIndex = 43;
@@ -433,12 +443,12 @@
             // 
             this.numericUpDown10.Location = new System.Drawing.Point(508, 188);
             this.numericUpDown10.Maximum = new decimal(new int[] {
-            0,
+            10000,
             0,
             0,
             0});
             this.numericUpDown10.Minimum = new decimal(new int[] {
-            1247,
+            2000,
             0,
             0,
             -2147483648});
