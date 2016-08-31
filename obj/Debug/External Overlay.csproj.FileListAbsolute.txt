@@ -23,7 +23,6 @@ C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.
 C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.xml
 C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.Direct2D1.xml
 C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\SharpDX.DXGI.xml
-C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.csprojResolveAssemblyReference.cache
 C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External_Overlay.Form1.resources
 C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External_Overlay.Properties.Resources.resources
 C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.csproj.GenerateResource.Cache
@@ -47,3 +46,5 @@ C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\MouseKey
 C:\Users\jfouts\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\MouseKeyboardActivityMonitor.dll
 C:\Users\jfouts\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\MouseKeyboardActivityMonitor.xml
 C:\Users\jfouts\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.csprojResolveAssemblyReference.cache
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External_Overlay.Form2.resources
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\PInvoke.dll

@@ -99,8 +99,8 @@ namespace External_Overlay
                 Properties.Settings.Default["globalqual"] = (int)numericUpDown6.Value;
                 Properties.Settings.Default["Alpha"] = (decimal)numericUpDown7.Value;
                 Properties.Settings.Default["Xmovement"] = (int)numericUpDown8.Value;
-                Properties.Settings.Default["XResolution"] = (int)numericUpDown8.Value;
-                Properties.Settings.Default["YResolution"] = (int)numericUpDown8.Value;
+                Properties.Settings.Default["XResolution"] = (int)numericUpDown9.Value;
+                Properties.Settings.Default["YResolution"] = (int)numericUpDown10.Value;
                 Properties.Settings.Default.Save();
                 Flask f1 = new Flask(checkBox1.Checked, (Flask.Name)comboBox6.SelectedValue, (Keys)comboBox1.SelectedItem, (int)numericUpDown1.Value);
                 Flask f2 = new Flask(checkBox1.Checked, (Flask.Name)comboBox7.SelectedValue, (Keys)comboBox2.SelectedItem, (int)numericUpDown2.Value);
@@ -177,6 +177,11 @@ namespace External_Overlay
         }
 
         private void numericUpDown8_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown9_ValueChanged(object sender, EventArgs e)
         {
 
         }
