@@ -1,4 +1,5 @@
-﻿using System;
+﻿using External_Overlay;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +13,11 @@ public class Flask
     public bool usable { get; set; }
     public double baseDuration { get; set; }
     public int qual { get; set; }
-    public Keys key { get; set; }
+    public Keys2 key { get; set; }
     public bool inUse { get; set; }
     public float useDuration { get; set; }
     public string flaskImageLocation { get; set; }
-    public Flask(bool vis, Name _name, Keys _key, int _qual)
+    public Flask(bool vis, Name _name, Keys2 _key, int _qual)
     {
         visible = vis;
         name = _name;
@@ -30,7 +31,6 @@ public class Flask
         else if (name == Name.Amethyst_Flask || name == Name.Atziris_Promise)
             baseDuration = 3.5;
         usable = true;
-        visible = true;
     }
     static void MakeUsable(Flask f)
     {

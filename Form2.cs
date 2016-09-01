@@ -25,11 +25,12 @@ namespace External_Overlay
             Array fvalues3 = Enum.GetValues(typeof(Flask.Name));
             Array fvalues4 = Enum.GetValues(typeof(Flask.Name));
             Array fvalues5 = Enum.GetValues(typeof(Flask.Name));
-            Array values = Enum.GetValues(typeof(Keys));
-            Array values2 = Enum.GetValues(typeof(Keys));
-            Array values3 = Enum.GetValues(typeof(Keys));
-            Array values4 = Enum.GetValues(typeof(Keys));
-            Array values5 = Enum.GetValues(typeof(Keys));
+            List<List<string>> valuesasdf = new List<List<string>>();
+            Array values = Enum.GetValues(typeof(Keys2));
+            Array values2 = Enum.GetValues(typeof(Keys2));
+            Array values3 = Enum.GetValues(typeof(Keys2));
+            Array values4 = Enum.GetValues(typeof(Keys2));
+            Array values5 = Enum.GetValues(typeof(Keys2));
             InitializeComponent();
             this.comboBox1.DataSource = values;
             this.comboBox2.DataSource = values2;
@@ -102,11 +103,11 @@ namespace External_Overlay
                 Properties.Settings.Default["XResolution"] = (int)numericUpDown9.Value;
                 Properties.Settings.Default["YResolution"] = (int)numericUpDown10.Value;
                 Properties.Settings.Default.Save();
-                Flask f1 = new Flask(checkBox1.Checked, (Flask.Name)comboBox6.SelectedValue, (Keys)comboBox1.SelectedItem, (int)numericUpDown1.Value);
-                Flask f2 = new Flask(checkBox1.Checked, (Flask.Name)comboBox7.SelectedValue, (Keys)comboBox2.SelectedItem, (int)numericUpDown2.Value);
-                Flask f3 = new Flask(checkBox1.Checked, (Flask.Name)comboBox8.SelectedValue, (Keys)comboBox3.SelectedItem, (int)numericUpDown3.Value);
-                Flask f4 = new Flask(checkBox1.Checked, (Flask.Name)comboBox9.SelectedValue, (Keys)comboBox4.SelectedItem, (int)numericUpDown4.Value);
-                Flask f5 = new Flask(checkBox1.Checked, (Flask.Name)comboBox10.SelectedValue, (Keys)comboBox5.SelectedItem, (int)numericUpDown5.Value);
+                Flask f1 = new Flask(checkBox1.Checked, (Flask.Name)comboBox6.SelectedValue, (Keys2)comboBox1.SelectedItem, (int)numericUpDown1.Value);
+                Flask f2 = new Flask(checkBox2.Checked, (Flask.Name)comboBox7.SelectedValue, (Keys2)comboBox2.SelectedItem, (int)numericUpDown2.Value);
+                Flask f3 = new Flask(checkBox3.Checked, (Flask.Name)comboBox8.SelectedValue, (Keys2)comboBox3.SelectedItem, (int)numericUpDown3.Value);
+                Flask f4 = new Flask(checkBox4.Checked, (Flask.Name)comboBox9.SelectedValue, (Keys2)comboBox4.SelectedItem, (int)numericUpDown4.Value);
+                Flask f5 = new Flask(checkBox5.Checked, (Flask.Name)comboBox10.SelectedValue, (Keys2)comboBox5.SelectedItem, (int)numericUpDown5.Value);
 
                 Flasks.Add(f1);
                 Flasks.Add(f2);

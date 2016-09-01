@@ -48,3 +48,4 @@ C:\Users\jfouts\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\MouseK
 C:\Users\jfouts\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.csprojResolveAssemblyReference.cache
 C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External_Overlay.Form2.resources
 C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\bin\Debug\PInvoke.dll
+C:\Users\John\Documents\Visual Studio 2015\Projects\PoEFlasks\obj\Debug\External Overlay.csprojResolveAssemblyReference.cache

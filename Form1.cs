@@ -27,7 +27,8 @@ namespace External_Overlay
     {
         float xResolution = 1920;
         float yResolution = 1080;
-        bool WCCD = true;
+        bool WCCD = false;
+        float WCT = 2;
         bool showWC = false;
         double globalPercentage = 0;
         float flaskAlpha = 1.0f;
@@ -35,6 +36,7 @@ namespace External_Overlay
         List<Flask> Flasks = new List<Flask>();
         List<double[]> locMods = new List<double[]>();
         private MouseKeyboardActivityMonitor.KeyboardHookListener keyboardListener;
+        private MouseKeyboardActivityMonitor.MouseHookListener mouseListener;
         private WindowRenderTarget device;
         private HwndRenderTargetProperties renderProperties;
         private SolidColorBrush solidColorBrush;
@@ -86,7 +88,7 @@ namespace External_Overlay
             xAdjustment = _xAdjustment;
             flaskAlpha = _flaskAlpha;
             globalPercentage = _globalPercentage;
-            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Idle;
             Flasks = importedFlasks;
             Application.AddMessageFilter(this);
             this.handle = Handle;
@@ -97,6 +99,9 @@ namespace External_Overlay
             keyboardListener = new KeyboardHookListener(new GlobalHooker());
             keyboardListener.Enabled = true;
             keyboardListener.KeyPress += KeyboardListener_KeyDown;
+            mouseListener = new MouseHookListener(new GlobalHooker());
+            mouseListener.Enabled = true;
+            mouseListener.MouseDown += MouseListener_KeyDown;
             InitializeComponent();
 
             locMods.Add(new double[2] { 0.1734375, 0.97407407 });
@@ -110,7 +115,12 @@ namespace External_Overlay
         }
         private void KeyboardListener_KeyDown(object sender, KeyPressEventArgs e)
         {
-
+            int q = e.KeyChar;
+            if (q == (int)Keys2.q && WCCD == false)
+            {
+                WCCD = true;
+                WCT = 2f;
+            }
             for (int i = 0; i <= Flasks.Count() - 1; i++)
             {
                 if (Flasks[i].visible == true)
@@ -134,14 +144,47 @@ namespace External_Overlay
             }
 
         }
+        private void MouseListener_KeyDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button.ToString() == "Middle" || e.Button.ToString() == "XButton1" || e.Button.ToString() == "XButton2")
+            {
+                int s1 = 0;
+                if (e.Button.ToString() == "Middle")
+                    s1 = 4;
+                else if (e.Button.ToString() == "XButton1")
+                    s1 = 5;
+                else if (e.Button.ToString() == "XButton2")
+                    s1 = 6;
+                for (int i = 0; i <= Flasks.Count() - 1; i++)
+                {
+                    if (Flasks[i].visible == true)
+                    {
+
+                        // int s2 = (int)Flasks[i].key;
+                        if (s1 == (int)Flasks[i].key)
+                        {
+                            Point p = new Point((int)(Math.Round(locMods[i][0] * xResolution)), (int)(Math.Round(locMods[i][1] * yResolution)));
+                            Color pixelColor = GetColorFromScreen(p);
+                            if (pixelColor.R > 50 || pixelColor.G > 50 || pixelColor.B > 50)
+                            {
+                                //do flask stuff
+                                Flasks[i].inUse = true;
+                                Flasks[i].useDuration = (float)Flasks[i].baseDuration * (1 + (float)Flasks[i].qual / 100 + (float)globalPercentage / 100);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
         private void button1_Click_1(object sender, EventArgs e)
         {
-           
+
 
         }
         public bool PreFilterMessage(ref Message m)
         {
-            //here you can specify  which key you need to filter
+            /*//here you can specify  which key you need to filter
             for (int i = 0; i <= Flasks.Count() - 1; i++)
             {
                 if (Flasks[i].visible == true && Flasks[i].usable == true)
@@ -155,58 +198,21 @@ namespace External_Overlay
                         return false;
                     }
                 }
-            }
+            }*/
             return false;
         }
-        /*  void worker_DrawFlask(object sender, DoWorkEventArgs e)
-          {
-              Flask flask = (Flask)e.Argument;
-              double x = Flasks[0].baseDuration;
-              for (double i2 = flask.baseDuration; i2 > 0; i2 = i2 - 0.1)
-              {
-                  this.Invoke((MethodInvoker)delegate
-                  {
-                      this.label2.Text = Math.Round(i2, 1).ToString();
-                  });
-                  System.Threading.Thread.Sleep(100);
-              }
-              this.Invoke((MethodInvoker)delegate
-              {
-                  this.label2.Text = "0";
-              });
-          }*/
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             bool createdNew;
             EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "CF2D4313-33DE-489D-9721-6AFF69841DEA", out createdNew);
-            bool signaled = false;
             while (true)
             {
                 DateTime d1 = DateTime.Now;
-                Thread.Sleep(100);
-                Point pwc = new Point(1437, 1021);
-                Color wcColor = GetColorFromScreen(pwc);
-                if (wcColor.R > 70 || wcColor.G > 70 || wcColor.B > 70)
-                {
-                    WCCD = false;
-                }
-                else
-                    WCCD = true;
+                Thread.Sleep(250);
+               
+                
                 for (int i = 0; i <= Flasks.Count() - 1; i++)
                 {
-
-                    /* if (Flasks[i].visible)
-                     {
-                         //check to make sure its at least 1/2 full
-                         Point p = new Point((int)(Math.Round(locMods[i][0] * xResolution)), (int)(Math.Round(locMods[i][1] * yResolution)));
-                         Color pixelColor = GetColorFromScreen(p);
-                         if (pixelColor.R > 50 || pixelColor.G > 50 || pixelColor.B > 50)
-                         {
-                             Flasks[i].usable = true;
-                         }
-                         else
-                             Flasks[i].usable = false;
-                     }*/
                     if (Flasks[i].inUse)
                     {
                         if (Flasks[i].useDuration > 0)
@@ -220,24 +226,19 @@ namespace External_Overlay
                             Flasks[i].inUse = false;
                     }
                 }
+                if (WCCD)
+                {
+                    if (WCT > 0)
+                    {
+                        DateTime dwc = DateTime.Now;
+                        TimeSpan t = dwc - d1;
+                        WCT = WCT - (float)t.Milliseconds / 1000;
+                    }
+                    else
+                        WCCD = false;
+                }
             }
         }
-        /* public Color GetColorAt(Point location)
-         {
-             using (Graphics gdest = Graphics.FromImage(screenPixel))
-             {
-                 using (Graphics gsrc = Graphics.FromHwnd(IntPtr.Zero))
-                 {
-                     IntPtr hSrcDC = gsrc.GetHdc();
-                     IntPtr hDC = gdest.GetHdc();
-                     int retval = BitBlt(hDC, 0, 0, 1, 1, hSrcDC, location.X, location.Y, (int)CopyPixelOperation.SourceCopy);
-                     gdest.ReleaseHdc();
-                     gsrc.ReleaseHdc();
-                 }
-             }
-
-             return screenPixel.GetPixel(0, 0);
-         }*/
         static Color GetColorFromScreen(Point p)
         {
             Rectangle rect = new Rectangle(p, new Size(2, 2));
@@ -398,14 +399,16 @@ namespace External_Overlay
                 device.Clear(transparent);
                 solidColorBrush.Color = r4color2;
                 for (int i = 0; i <= Flasks.Count() - 1; i++)
-                    if (Flasks[i].inUse)
+                {
+                    if (Flasks[i].inUse && Flasks[i].visible)
                     {
                         if (Flasks[i].useDuration > 0)
                         {
                             device.DrawBitmap(LoadFromFile(device, Flasks[i].flaskImageLocation), rectangles[i], flaskAlpha / 100, BitmapInterpolationMode.Linear, rec);
                         }
                     }
-                if (!WCCD && showWC)
+                }
+                if (WCCD && showWC)
                 {
                     device.DrawBitmap(LoadFromFile(device, "FlaskImages\\WC.png"), recwc, 1.0f, BitmapInterpolationMode.Linear, rec);
                 }
