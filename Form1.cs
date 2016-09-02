@@ -103,7 +103,8 @@ namespace External_Overlay
             mouseListener.Enabled = true;
             mouseListener.MouseDown += MouseListener_KeyDown;
             InitializeComponent();
-
+            foreach (Flask f in Flasks)
+                f.useDuration = 0;
             locMods.Add(new double[2] { 0.1734375, 0.97407407 });
             locMods.Add(new double[2] { 0.197395833, 0.97407407 });
             locMods.Add(new double[2] { 0.2213541666, 0.97407407 });

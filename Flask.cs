@@ -31,6 +31,7 @@ public class Flask
         else if (name == Name.Amethyst_Flask || name == Name.Atziris_Promise)
             baseDuration = 3.5;
         usable = true;
+        useDuration = 0;
     }
     static void MakeUsable(Flask f)
     {

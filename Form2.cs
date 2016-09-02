@@ -117,8 +117,6 @@ namespace External_Overlay
                 f = new Form1(Flasks, (int)numericUpDown6.Value, (float)numericUpDown7.Value, (int)numericUpDown8.Value, (float)numericUpDown9.Value, (float)numericUpDown10.Value, checkBox6.Checked);
                 f.Show();
                 running = true;
-
-               
             }
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -165,6 +163,7 @@ namespace External_Overlay
         private void button2_Click(object sender, EventArgs e)
         {
             f.Close();
+            running = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
