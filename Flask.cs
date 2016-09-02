@@ -39,24 +39,24 @@ public class Flask
     }
     public enum Name
     {
-        Taste_of_Hate = 1,
-        Atziris_Promise = 2,
-        Lions_Roar = 3,
-        Quicksilver_Flask = 4,
-        Jade_Flask = 5,
-        Granite_Flask = 6,
-        Ruby_Flask = 7,
-        Topaz_Flask = 8,
-        Saphire_Flask = 9,
-        Silver_Flask = 10,
-        Diamond_Flask = 11,
-        Sulphur_Flask = 12,
-        Basalt_Flask = 13,
-        Bismuth_Flask = 14,
+        Amethyst_Flask = 1,
+        Aquamarine_Flask = 2,
+        Atziris_Promise = 3,
+        Basalt_Flask = 4,
+        Bismuth_Flask = 5,
+        Diamond_Flask = 6,
+        Granite_Flask = 7,
+        Jade_Flask = 8,
+        Lions_Roar = 9,
+        Quartz_Flask = 10,
+        Quicksilver_Flask = 11,
+        Ruby_Flask = 12,
+        Saphire_Flask = 13,
+        Silver_Flask = 14,
         Stibnite_Flask = 15,
-        Amethyst_Flask = 16,
-        Aquamarine_Flask = 17,
-        Quartz_Flask = 18
+        Sulphur_Flask = 16,
+        Taste_of_Hate = 17,
+        Topaz_Flask = 18
     }
 }
 
